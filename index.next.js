@@ -10,8 +10,8 @@ const END_OF_TIME = 'Fri, 31 Dec 9999 23:59:59 GMT'
 
 /**
  * Encode a key to make it safe for being used within a regex
- * @param {String} key - A cookie identifier
- * @returns {String} The safely encoded key
+ * @param {string} key - A cookie identifier
+ * @returns {string} The safely encoded key
  */
 function encodeForRegex(key) {
   return encodeURIComponent(key).replace(/[-.+*]/g, '\\$&')
@@ -20,7 +20,7 @@ function encodeForRegex(key) {
 /**
  * Write a key-value pair, also handling Boolean and null values
  * @param {Array} entry - A cookie key-value data pair
- * @returns {String} The compiled key-value pair as a string
+ * @returns {string} The compiled key-value pair as a string
  */
 function compileKey([key, value]) {
   if (value == null || value === false) {
@@ -31,21 +31,21 @@ function compileKey([key, value]) {
     return key
   }
 
-  return `${ key }=${ value }`
+  return `${key}=${value}`
 }
 
 
 /**
  * Read a cookie value by its name
- * @param {String} key - A cookie identifier
- * @returns {String} The cookie found or an empty string
+ * @param {string} key - A cookie identifier
+ * @returns {string} The cookie found or an empty string
  */
 export function readCookie(key) {
   if (!key) {
     return null
   }
 
-  const check = new RegExp(`(?:(?:^|.*;)\\s*${ encodeForRegex(key) }\\s*\\=\\s*([^;]*).*$)|^.*$`)
+  const check = new RegExp(`(?:(?:^|.*;)\\s*${encodeForRegex(key)}\\s*\\=\\s*([^;]*).*$)|^.*$`)
 
   return decodeURIComponent(window.document.cookie.replace(check, '$1')) || null
 }
@@ -102,7 +102,7 @@ export function deleteCookie({ key, path, domain }) {
 
 /**
  * Cookie key availability check
- * @param {String} key - A cookie identifier
+ * @param {string} key - A cookie identifier
  * @returns {boolean} Flag that indicates the existence of a key in the cookie
  */
 export function hasCookie(key) {
@@ -110,7 +110,7 @@ export function hasCookie(key) {
     return false
   }
 
-  return new RegExp(`(?:^|;\\s*)${ encodeForRegex(key) }\\s*\\=`).test(window.document.cookie)
+  return new RegExp(`(?:^|;\\s*)${encodeForRegex(key)}\\s*\\=`).test(window.document.cookie)
 }
 
 /**
